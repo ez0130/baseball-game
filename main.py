@@ -3,29 +3,6 @@ from tkinter import ttk, messagebox
 from random import sample
 import time
 
-'''
-def update_line(hour_now, x_position, y_position):
-    print(hour_now, ' before')
-    canvas3.delete(hour_now)
-    hour_now = canvas3.create_line(x_position, y_position,177,203 )
-    print(hour_now, 'after')
-    
-def time():
-    currentTime = strftime('%H:%M:%S %p')
-    Current_time.config(text=currentTime)
-    current_hour = (split(':', currentTime))[0]
-    current_minute = (split(':', currentTime))[1]
-    hour_round = -1
-    if int(current_minute) > 30:
-        hour_round += 1
-    hour_position = int(current_hour)*2 + hour_round
-    read_xy = pd.read_csv('clockxy.csv') #dtype={'Hour': int, 'x': float, 'y':float})
-    
-    x_position = (int((read_xy.loc[hour_position])[0]))
-    y_position = (int((read_xy.loc[hour_position])[1]))
-    Current_time.after(1000, lambda a: time(),update_line(hour_now, x_position, y_position))
-   
-'''
 
 # generating random number
 def new_game():
@@ -43,6 +20,16 @@ def new_game():
 global try_count
 try_count = 0
 # check the answer
+
+def reset_game():
+    global answer, try_count
+    try_count = 0
+    canvas1.itemconfig(L1, text="_ _ _ _ _")
+    canvas1.itemconfig(L2, text="20")
+    for widget in canvas3.winfo_children():
+        widget.destroy()
+    new_game()
+
 def check_answer():
     global try_count
     
@@ -70,8 +57,10 @@ def check_answer():
     if strike == 5:
         canvas1.itemconfig(L1, text = answer)
         messagebox.showwarning(title="Won", message="Congratulations!")
+        reset_game()
         
     guessed_list = E0.get() + '    '+ str(strike) +'S' + str(ball) + 'B'
+    E0.delete(0, 5)
 
     Label(canvas3, text = guessed_list).pack(anchor = 'n')
     print(try_count)
@@ -95,12 +84,12 @@ canvas1.place(x=0, y=0)
 canvas2.place(x=0, y=60)
 canvas3.place(x=0, y=100)   
 
-
+'''
 def motion(event):
   print("%s, %s" % (event.x, event.y))
   return
 window.bind('<Button-1>', motion)
-
+'''
 
 window.update()
 L1 = canvas1.create_text(80, 30, font="Times 20 italic bold", text = "_ _ _ _ _ ")

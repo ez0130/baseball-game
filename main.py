@@ -3,11 +3,12 @@ from tkinter import ttk, messagebox
 from random import sample
 import time
 
+label_list = []
 
 
 # generating random number
 def new_game():
-    global answer
+    global answer , label_list
     answer = sample([x for x in range(0,9)], k = 5,)
     check_first_digit = True
     while check_first_digit:
@@ -18,8 +19,13 @@ def new_game():
             answer = sample([x for x in range(0,9)], k = 5)   
     print(answer)
     # remove guesses
-global try_count
-try_count = 0
+    global try_count
+    try_count = 0
+
+    # Clear label
+    for label in label_list:
+            label.destroy()
+    label_list = []
 # check the answer
 
 def reset_game():
@@ -67,14 +73,15 @@ def check_answer():
     E0.delete(0, 5)
 
     Label(canvas3, text = guessed_list).pack(anchor = 'n')
-    print(try_count)
+    label_list.append(Label)
     canvas1.itemconfig(L2, text= 20-try_count)
- 
     if try_count == 20:
         canvas1.itemconfig(L1, text = answer)
         messagebox.showwarning(title="Lost", message="You lost")
         reset_game()
         #window.after(1000, window.destroy)
+    
+ 
 global best_score
 best_score = 20
 
@@ -90,13 +97,6 @@ canvas3 = Canvas(width=600, height=800)
 canvas1.place(x=0, y=0)
 canvas2.place(x=0, y=60)
 canvas3.place(x=0, y=100)   
-
-'''
-def motion(event):
-  print("%s, %s" % (event.x, event.y))
-  return
-window.bind('<Button-1>', motion)
-'''
 
 window.update()
 L1 = canvas1.create_text(80, 30, font="Times 20 italic bold", text = "_ _ _ _ _ ")
@@ -119,18 +119,6 @@ B1.pack()
 new_game()
 
 
-'''
-#menu      
-menubar = Menu(window)
-filemenu = Menu(menubar, tearoff=0)
-filemenu.add_command(label="New Schedule" )
-filemenu.add_command(label="Open Schedule" )#command= )
-filemenu.add_command(label="Save Schedule" )#command= )
-filemenu.add_command(label="Exit", command= window.quit)
-menubar.add_cascade(label="New", menu=filemenu)
-#filemenu.add_separator
-window.config(menu=menubar)
-'''
 
 
 

@@ -73,7 +73,8 @@ def check_answer():
     if try_count == 20:
         canvas1.itemconfig(L1, text = answer)
         messagebox.showwarning(title="Lost", message="You lost")
-        window.after(1000, window.destroy)
+        reset_game()
+        #window.after(1000, window.destroy)
 global best_score
 best_score = 20
 

@@ -4,6 +4,7 @@ from random import sample
 import time
 
 
+
 # generating random number
 def new_game():
     global answer
@@ -22,7 +23,10 @@ try_count = 0
 # check the answer
 
 def reset_game():
-    global answer, try_count
+    global answer, try_count, best_score
+    if try_count <= best_score:
+        best_score = try_count
+    canvas1.itemconfig(L3, text="best scores = {}".format(best_score))
     try_count = 0
     canvas1.itemconfig(L1, text="_ _ _ _ _")
     canvas1.itemconfig(L2, text="20")
@@ -70,7 +74,8 @@ def check_answer():
         canvas1.itemconfig(L1, text = answer)
         messagebox.showwarning(title="Lost", message="You lost")
         window.after(1000, window.destroy)
-
+global best_score
+best_score = 20
 
 window = Tk()
 window.title("Baseball Game")
@@ -79,6 +84,7 @@ window.config(padx=10, pady=3)
 canvas1 = Canvas(width=600, height=150)
 canvas2 = Canvas(width=500, height=10)
 canvas3 = Canvas(width=600, height=800)
+
 
 canvas1.place(x=0, y=0)
 canvas2.place(x=0, y=60)
@@ -97,8 +103,15 @@ L2 = canvas1.create_text(224, 34, text = "20", font=("Ariel", 40, "italic"))
 E0 = Entry(canvas2, width =20, font = 'Arial 10')
 E0.pack()
 E0.insert(0, "12345")
+L3 = canvas1.create_text(215, 70, text= "best scores = {}".format(best_score) )
+def enter():
+  check_answer()
+  
 
 
+
+
+E0.bind("<Return>", lambda event: enter())
 B1 = Button(canvas2, text= "Submit", command = check_answer)
 B1.pack()
 
